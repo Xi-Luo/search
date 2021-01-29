@@ -1,8 +1,9 @@
 <template>
   <div>
     <el-row>
+      <div class="invisible"></div>
       <el-col :span="8" :offset="3">
-        <el-input class="search" v-model="input" clearable @blur="disappearCard"></el-input>
+        <el-input class="search" v-model="input" clearable @focus="inputFocus" ></el-input>
       </el-col>
       <el-col :span="1" :offset="0"><el-button type="primary">搜索</el-button></el-col>
     </el-row>
@@ -28,9 +29,7 @@ export default {
   watch:{
     input(){
       this.getKeyword();
-      if(this.input){
-        this.showCard = true
-      }
+
     }
   },
   data(){
@@ -40,9 +39,14 @@ export default {
       list:[{keyword:1234}]
     }
   },
+  created() {
+    this.input = this.$route.query.keyword.keyword
+  },
   methods: {
-    disappearCard() {
-      this.showCard = false;
+    inputFocus(){
+      if(this.input){
+        this.showCard = true
+      }
     },
     handleClick(item) {
       console.log(item)
@@ -70,8 +74,16 @@ export default {
 </script>
 
 <style scoped>
+.invisible{
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background-color: antiquewhite;
+  z-index: -1;
+}
 .search{
   margin-right: 10px;
+  z-index: 9;
 }
 .box{
   border: 1px solid #efefef;

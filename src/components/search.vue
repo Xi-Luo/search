@@ -1,24 +1,20 @@
 <template>
-  <div class="bg">
-    <el-row>
-      <el-col :span="8" :offset="7">
-        <el-input class="search" v-model="input" clearable @blur="disappearCard"></el-input>
-      </el-col>
-      <el-col :span="1" :offset="0"><el-button type="primary">搜索</el-button></el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="8" :offset="7">
-        <div v-show="showCard" class="box">
-          <ul>
-            <li
-                v-for="(item, index) in list"
-                :key="index"
-                @click="handleClick(item)"
-            >{{item.keyword}}</li>
-          </ul>
-        </div>
-      </el-col>
-    </el-row>
+  <div>
+    <div class="invisible" v-show="showCard" @click="disappearCard"></div>
+    <div class="searchLine">
+      <el-input class="search" v-model="input" clearable></el-input>
+      <el-button >搜索</el-button>
+    </div>
+
+    <div v-show="showCard" class="box">
+      <ul>
+        <li
+            v-for="(item, index) in list"
+            :key="index"
+            @click="handleClick(item)"
+        >{{item.keyword}}</li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -41,6 +37,7 @@ export default {
     }
   },
   methods:{
+
     disappearCard(){
       this.showCard = false;
     },
@@ -71,15 +68,32 @@ export default {
 </script>
 
 <style scoped>
-
+.invisible{
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: antiquewhite;
+  z-index: -1;
+}
+.searchLine{
+  margin-left: 30%;
+  padding-top: 60px;
+  z-index: 10;
+}
 .search{
-  margin-right: 10px;
+  width: 500px;
+
 }
 .box{
   border: 1px solid #efefef;
+  background-color: white;
+  width: 500px;
+  margin-left: 30%;
+  z-index: 9;
 }
 ul{
   padding:15px;
+  text-align: left;
 }
 ul li{
   list-style: none;
