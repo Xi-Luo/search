@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="invisible" v-show="showCard" @click="disappearCard"></div>
+    <div class="invisible" @click="disappearCard"></div>
     <div class="searchLine">
       <input class="search" v-model="input" clearable>
       <button type="primary" class="btn" @click="clickSearch">搜索</button>
@@ -21,6 +21,7 @@
 <script>
 export default {
   name: "search",
+  props:['input'],
   watch:{
     input(){
       this.getKeyword();
@@ -32,7 +33,7 @@ export default {
   data(){
     return{
       showCard:false,
-      input:'',
+      // input:'',
       list:[]
     }
   },
@@ -49,23 +50,12 @@ export default {
       this.$router.push({path:'/result',query:{keyword:item.keyword}})
     },
     getKeyword(){
-      let xmlhttp
-      if(window.XMLHttpRequest){
-        xmlhttp = new XMLHttpRequest()
-      } else {
-        // eslint-disable-next-line no-undef
-        xmlhttp = new ActiveXObject('Microsoft.XMLHTTP')
-      }
-      let that = this;
-      xmlhttp.onreadystatechange = function (){
-        if (xmlhttp.readyState === 4&&xmlhttp.status===200){
-          that.list= JSON.parse(xmlhttp.response).data
-        }
-      }
-      xmlhttp.open("Get"," https://so.toutiao.com/2/article/search_sug/?keyword="+this.input, true)
-      xmlhttp.send()
+      fetch("https://so.toutiao.com/2/article/search_sug/?keyword="+this.input,)
+        .then(res=>res.json())
+          .then(json=>{this.list=json.data})
+      .catch(err=>{console.log('getKeyword error',err)})
     }
-  },
+  }
 
 }
 </script>
@@ -76,9 +66,11 @@ export default {
   height: 100%;
   width: 100%;
   z-index: 0;
+  background-color: #efefef;
 }
 .searchLine{
-  margin-left: 30%;
+  display: flex;
+  justify-content: center;
   padding-top: 60px;
 }
 .search{
@@ -116,7 +108,7 @@ input{
   background-color: white;
   width: 400px;
   margin-left: 30%;
-  position: relative;
+  position: absolute;
   z-index: 9;
 }
 ul{
