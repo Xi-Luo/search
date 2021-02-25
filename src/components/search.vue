@@ -70,7 +70,7 @@ export default {
 }
 .searchLine{
   display: flex;
-  justify-content: center;
+  margin-left: 35%;
   padding-top: 60px;
 }
 .search{
@@ -107,7 +107,7 @@ input{
   border: 1px solid #efefef;
   background-color: white;
   width: 400px;
-  margin-left: 30%;
+  margin-left: 35%;
   position: absolute;
   z-index: 9;
 }
