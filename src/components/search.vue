@@ -2,8 +2,8 @@
   <div>
     <div class="invisible" v-show="showCard" @click="disappearCard"></div>
     <div class="searchLine">
-      <el-input class="search" v-model="input" clearable></el-input>
-      <el-button >搜索</el-button>
+      <input class="search" v-model="input" clearable>
+      <button type="primary" class="btn" @click="clickSearch">搜索</button>
     </div>
 
     <div v-show="showCard" class="box">
@@ -37,13 +37,16 @@ export default {
     }
   },
   methods:{
-
+    clickSearch(){
+      console.log(this.input)
+      this.$router.push({path:'/result',query:{keyword:this.input}})
+    },
     disappearCard(){
       this.showCard = false;
     },
     handleClick(item){
       console.log(item)
-      this.$router.push({path:'/result',query:{keyword:item}})
+      this.$router.push({path:'/result',query:{keyword:item.keyword}})
     },
     getKeyword(){
       let xmlhttp
@@ -72,23 +75,48 @@ export default {
   position: fixed;
   height: 100%;
   width: 100%;
-  background-color: antiquewhite;
-  z-index: -1;
+  z-index: 0;
 }
 .searchLine{
   margin-left: 30%;
   padding-top: 60px;
-  z-index: 10;
 }
 .search{
-  width: 500px;
-
+  width: 400px;
+  height: 3rem;
+  font-size: 1.2rem;
+  padding: 0.2rem;
+  position: relative;
+  z-index: 10;
+  box-sizing: border-box;
+  border: 2px solid lightgray;
+  border-radius: 4px 0 0 4px;
+}
+input{
+  outline: none;
+}
+.search:focus{
+  border: 2px solid cornflowerblue;
+}
+.btn{
+  position: relative;
+  width: 4rem;
+  height: 3rem;
+  font-size: 1.2rem;
+  z-index: 9;
+  background-color: cornflowerblue;
+  color: white;
+  border-radius: 0 4px 4px 0px;
+  border-width: 0px;
+  cursor: pointer;
+  vertical-align: top;
 }
 .box{
   border: 1px solid #efefef;
   background-color: white;
-  width: 500px;
+  width: 400px;
   margin-left: 30%;
+  position: relative;
   z-index: 9;
 }
 ul{
@@ -99,7 +127,7 @@ ul li{
   list-style: none;
   text-align: left;
   margin-top: 5px;
-
+  cursor: pointer;
 }
 ul li:hover{
   background-color: #efefef;
